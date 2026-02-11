@@ -27,13 +27,4 @@ I am currently a student of Linguistics at [Insert University Name], standing at
 * Quantitative Methods
 
 ---
-
-### Blogs
-<ul>
-  {% for post in site.posts limit:3 %}
-    <li>
-      <span style="color: #666;">{{ post.date | date: "%Y-%m-%d" }}</span>
-      » <a href="{{ post.url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+>
