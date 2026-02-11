@@ -1,218 +1,141 @@
 :root {
-  /* === CDE 琥珀色系调色板 === */
+  /* CDE 琥珀色/土黄配色方案 */
+  --bg-desktop: #000000;         /* 桌面背景：纯黑 */
   
-  /* 桌面背景色 */
-  --desktop-bg: #101010;
-
-  /* 窗口基色 (表面颜色 - 深沉的金色/琥珀色) */
-  --surface-color: #a67c00; 
-
-  /* 3D 浮雕高光色 (用于凸起面的左/上，凹陷面的右/下) - 明亮黄色 */
-  --bevel-highlight: #ffce47;
-
-  /* 3D 浮雕阴影色 (用于凸起面的右/下，凹陷面的左/上) - 深褐色 */
-  --bevel-shadow: #3d2e00;
-
-  /* 凹陷区域背景色 (比表面色更深，增加深度感) */
-  --inset-bg: #1a1200;
-
-  /* 文本颜色 */
-  --text-color: #ffecb3;       /* 浅琥珀色文本，易读 */
-  --heading-color: #ffce47;    /* 高亮标题文本 */
-  --link-color: #ffd580;       /* 链接颜色 */
-
-  /* 边框厚度 (CDE以厚重著称) */
-  --border-thick: 6px;
-  --border-thin: 4px;
+  --cde-surface: #bd9653;        /* 控件表面：土黄色 */
+  --cde-light: #ffeeb0;          /* 高光：亮黄色 */
+  --cde-shadow: #5e461f;         /* 阴影：深褐色 */
+  --cde-text: #000000;           /* UI文字：黑色 */
+  
+  --content-bg: #1c1408;         /* 内容区域背景：深咖啡色 */
+  --content-text: #ffbc57;       /* 内容文字：亮橙色 */
+  
+  --border-width: 4px;           /* 边框厚度：厚！ */
 }
 
 body {
-  background-color: var(--desktop-bg);
-  /* 可选：加一个复古的背景纹理，模拟旧显示器 */
-  background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
-  background-size: 4px 4px, 4px 4px;
-  
-  color: var(--text-color);
-  font-family: "Courier New", Courier, monospace; /* 保持硬核等宽字体 */
-  margin: 0;
-  padding: 20px;
-  line-height: 1.6;
+  background-color: var(--bg-desktop);
+  /* 点阵纹理背景 */
+  background-image: radial-gradient(#333 1px, transparent 1px);
+  background-size: 10px 10px;
+  font-family: "Courier New", Courier, monospace;
+  margin: 20px;
+  color: var(--cde-text);
 }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* === 通用 CDE 凸起效果 Mixin === */
-.cde-raised {
-  background-color: var(--surface-color);
-  border-style: solid;
-  border-width: var(--border-thick);
-  /* 左上高光，右下阴影 -> 凸起感 */
-  border-top-color: var(--bevel-highlight);
-  border-left-color: var(--bevel-highlight);
-  border-bottom-color: var(--bevel-shadow);
-  border-right-color: var(--bevel-shadow);
-}
-
-/* === 通用 CDE 凹陷效果 Mixin === */
-.cde-inset {
-  background-color: var(--inset-bg);
-  border-style: solid;
-  border-width: var(--border-thin);
-  /* 左上阴影，右下高光 -> 凹陷感 */
-  border-top-color: var(--bevel-shadow);
-  border-left-color: var(--bevel-shadow);
-  border-bottom-color: var(--bevel-highlight);
-  border-right-color: var(--bevel-highlight);
-}
-
-
-/* === 窗口结构 === */
-/* 主窗口框架 (凸起) */
-.window-frame {
+/* === 1. 核心 CDE 窗口 (凸起效果) === */
+.cde-window {
+  background-color: var(--cde-surface);
+  padding: 5px;
   margin-bottom: 30px;
-  /* 应用凸起样式 */
-  background-color: var(--surface-color);
-  border-style: solid;
-  border-width: var(--border-thick);
-  border-top-color: var(--bevel-highlight);
-  border-left-color: var(--bevel-highlight);
-  border-bottom-color: var(--bevel-shadow);
-  border-right-color: var(--bevel-shadow);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
   
-  box-shadow: 6px 6px 10px rgba(0,0,0,0.5); /* 额外的外部投影增加层次 */
-  padding: 6px; /* 框架和内部面板之间的间距 */
+  /* 3D 凸起边框逻辑 */
+  border-style: solid;
+  border-width: var(--border-width);
+  border-top-color: var(--cde-light);    /* 上亮 */
+  border-left-color: var(--cde-light);   /* 左亮 */
+  border-right-color: var(--cde-shadow); /* 右暗 */
+  border-bottom-color: var(--cde-shadow);/* 下暗 */
+  
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.6); /* 窗口硬投影 */
 }
 
-/* 标题栏 */
-.title-bar {
-  background-color: var(--bevel-shadow); /* 深色背景 */
-  color: var(--heading-color);
+/* === 2. 标题栏 === */
+.cde-title-bar {
+  background-color: var(--cde-shadow); /* 深色标题栏 */
+  color: var(--cde-light);
   padding: 4px 8px;
+  margin-bottom: 8px;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--cde-shadow);
+}
+
+.cde-title-text {
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 6px;
-  /* 标题栏本身的微浮雕 */
-  border-bottom: 2px solid var(--bevel-highlight);
-  text-shadow: 1px 1px #000;
 }
 
-/* 窗口内部内容面板 (凹陷) */
-.window-pane {
-  /* 应用凹陷样式 */
-  background-color: var(--inset-bg);
-  border-style: solid;
-  border-width: var(--border-thin);
-  border-top-color: var(--bevel-shadow);
-  border-left-color: var(--bevel-shadow);
-  border-bottom-color: var(--bevel-highlight);
-  border-right-color: var(--bevel-highlight);
-  
+/* === 3. 内部凹陷面板 (凹陷效果) === */
+.cde-inset-content {
+  background-color: var(--content-bg);
+  color: var(--content-text);
   padding: 20px;
-  overflow: auto; /* 防止内容溢出 */
-}
-
-
-/* === 导航按钮 === */
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  background-color: var(--inset-bg); /* 导航栏底座也是凹陷的 */
-  border: 2px solid var(--bevel-shadow);
-  margin-bottom: 15px;
-}
-
-.cde-btn {
-  display: inline-block;
-  padding: 6px 12px;
-  text-decoration: none;
-  color: var(--surface-color);
-  font-weight: bold;
-  background-color: var(--surface-color);
   
-  /* 按钮凸起效果 (较薄的边框) */
-  border-width: 4px;
+  /* 3D 凹陷边框逻辑 (与凸起相反) */
   border-style: solid;
-  border-top-color: var(--bevel-highlight);
-  border-left-color: var(--bevel-highlight);
-  border-bottom-color: var(--bevel-shadow);
-  border-right-color: var(--bevel-shadow);
+  border-width: var(--border-width);
+  border-top-color: var(--cde-shadow);   /* 上暗 */
+  border-left-color: var(--cde-shadow);  /* 左暗 */
+  border-right-color: var(--cde-light);  /* 右亮 */
+  border-bottom-color: var(--cde-light); /* 下亮 */
   
-  transition: all 0.1s;
+  overflow: auto;
+}
+
+/* 导航面板特殊样式 */
+.nav-panel {
+  background-color: var(--cde-surface); /* 导航背景保持表面色 */
+  padding: 10px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* === 4. CDE 按钮 === */
+.cde-btn {
+  background-color: var(--cde-surface);
+  color: var(--cde-text);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 5px 15px;
+  
+  /* 按钮凸起 */
+  border-style: solid;
+  border-width: 3px;
+  border-top-color: var(--cde-light);
+  border-left-color: var(--cde-light);
+  border-right-color: var(--cde-shadow);
+  border-bottom-color: var(--cde-shadow);
+  
+  transition: none; /* 复古界面不需要平滑过渡 */
 }
 
 .cde-btn:hover {
-  background-color: var(--bevel-highlight);
+  background-color: #d1ab6b; /* 稍微变亮 */
 }
 
-/* 按钮按下效果 (Active) - 颜色反转 */
 .cde-btn:active {
-  border-top-color: var(--bevel-shadow);
-  border-left-color: var(--bevel-shadow);
-  border-bottom-color: var(--bevel-highlight);
-  border-right-color: var(--bevel-highlight);
-  padding: 7px 11px 5px 13px; /* 微位移模拟按下 */
-  background-color: var(--surface-color);
+  /* 按钮按下：反转边框颜色 */
+  border-top-color: var(--cde-shadow);
+  border-left-color: var(--cde-shadow);
+  border-right-color: var(--cde-light);
+  border-bottom-color: var(--cde-light);
+  
+  padding: 6px 14px 4px 16px; /* 模拟位移 */
 }
 
+/* === 内容排版优化 === */
+a { color: #ff9900; text-decoration: none; border-bottom: 1px dotted; }
+h1, h2, h3 { color: #ffeb3b; border-bottom: 2px dashed #5e461f; padding-bottom: 5px; margin-top: 0; }
+code { background: #332600; color: #ffeb3b; padding: 2px 5px; }
+pre { background: #000; border: 1px solid #5e461f; padding: 10px; color: #ffeb3b; overflow-x: auto; }
 
-/* === 内容样式 === */
-h1, h2, h3 {
-  color: var(--heading-color);
-  border-bottom: 2px dashed var(--surface-color);
-  padding-bottom: 10px;
-  margin-top: 1.5em;
-}
-
-a {
-  color: var(--link-color);
-  text-decoration: none;
-  border-bottom: 1px dotted var(--link-color);
-}
-a:hover {
-  background-color: var(--bevel-shadow);
-}
-
-/* 图片样式 - 也加上凹陷边框 */
+/* 图片加相框 */
 img {
+  border: 4px solid var(--cde-surface);
+  outline: 2px solid var(--cde-shadow);
   max-width: 100%;
-  border: 4px solid var(--bevel-shadow);
-  border-bottom-color: var(--bevel-highlight);
-  border-right-color: var(--bevel-highlight);
-  padding: 2px;
-  background: var(--desktop-bg);
-}
-.profile-img {
-  float: left;
-  width: 180px;
-  margin-right: 25px;
-  margin-bottom: 15px;
-}
-
-/* 代码块样式 (凹陷) */
-pre {
-  background-color: #000; /* 最深色背景 */
-  border: 3px solid var(--bevel-shadow);
-  border-bottom-color: var(--bevel-highlight); /* 底部高光增强凹陷感 */
-  border-right-color: var(--bevel-highlight);
-  padding: 15px;
-  overflow-x: auto;
-  color: var(--heading-color);
-}
-code {
-  background-color: #000;
-  padding: 2px 4px;
-  color: var(--heading-color);
 }
 
 footer {
   text-align: center;
-  margin-top: 40px;
-  font-size: 0.8em;
-  color: var(--surface-color);
+  color: #666;
+  margin-top: 20px;
+  font-size: 12px;
 }
