@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }} | CDE_Term</title>
+  <title>{{ page.title }}</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   
   <script type="text/javascript" id="MathJax-script" async
@@ -20,32 +20,40 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="cde-window">
+    <div class="cde-title-bar">
+      <span class="cde-title-text">System_Control</span>
+      <div class="cde-window-controls">_ □ X</div>
+    </div>
     
-    <header class="window-frame">
-      <div class="title-bar">Applications / System_Menu</div>
-      <nav class="nav-buttons">
-        <a href="/" class="cde-btn">首页 Home</a>
-        <a href="/cv" class="cde-btn">简历 CV</a>
-        <a href="/publications" class="cde-btn">研究 Research</a>
-        <a href="#blog" class="cde-btn">博客 Blog</a>
-      </nav>
-    </header>
+    <div class="cde-inset-content nav-panel">
+      <a href="/" class="cde-btn">主页 [Home]</a>
+      <a href="/cv" class="cde-btn">简历 [CV]</a>
+      <a href="/publications" class="cde-btn">研究 [Research]</a>
+      <a href="#blog" class="cde-btn">博客 [Blog]</a>
+    </div>
+  </div>
 
-    <main class="window-frame">
-      <div class="title-bar">
-        {% if page.title %}{{ page.title }}{% else %}Terminal{% endif %} - [Active]
-      </div>
-      
-      <div class="window-pane markdown-body">
+  <br>
+
+  <div class="cde-window">
+    <div class="cde-title-bar">
+      <span class="cde-title-text">
+        {% if page.title %}{{ page.title }}{% else %}Terminal{% endif %}
+      </span>
+      <div class="cde-window-controls">_ □ X</div>
+    </div>
+    
+    <div class="cde-inset-content">
+      <div class="markdown-body">
         {{ content }}
       </div>
-    </main>
-
-    <footer>
-      <p>[ Process completed. CDE Style loaded. ]</p>
-    </footer>
+    </div>
   </div>
+
+  <footer>
+    <p>Powered by OpenBSD & CDE Style.</p>
+  </footer>
 
 </body>
 </html>
