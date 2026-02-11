@@ -47,18 +47,25 @@
     .audio-wave {
       fill: none;
       stroke: #0f0;
-      stroke-width: 1.5px;
+      stroke-width: 1.2px; /* 稍微细一点，更精致 */
       stroke-linejoin: round;
+      stroke-linecap: round; /* 圆头，更像模拟信号 */
       transform-origin: center;
-      /* 模拟说话时的振幅震动 */
-      animation: amplitude-mod 0.2s infinite alternate ease-in-out;
+      /* 模拟说话时的不规则振幅震动 */
+      animation: amplitude-mod 1.2s infinite linear; 
       filter: drop-shadow(0 0 2px rgba(0, 255, 0, 0.6)); /* 荧光辉光 */
     }
 
+    /* 模拟真实的语音包络变化：忽大忽小 */
     @keyframes amplitude-mod {
-      0% { transform: scaleY(0.4); opacity: 0.7; }
-      50% { transform: scaleY(1.0); opacity: 1; }
-      100% { transform: scaleY(0.6); opacity: 0.8; }
+      0% { transform: scaleY(0.5); opacity: 0.6; }
+      15% { transform: scaleY(1.1); opacity: 1; }
+      30% { transform: scaleY(0.7); opacity: 0.8; }
+      45% { transform: scaleY(1.2); opacity: 1; }
+      60% { transform: scaleY(0.6); opacity: 0.7; }
+      75% { transform: scaleY(0.9); opacity: 0.9; }
+      90% { transform: scaleY(1.15); opacity: 1; }
+      100% { transform: scaleY(0.5); opacity: 0.6; }
     }
   </style>
 </head>
@@ -83,8 +90,8 @@
       <div class="spectrum-visual">
         <!-- ViewBox: 0 0 60 20 -->
         <svg width="100%" height="100%" viewBox="0 0 60 20" preserveAspectRatio="none">
-           <!-- 模拟一段时域上的语音波形 (Time Domain Waveform) -->
-           <path d="M0 10 L2 10 L3 8 L4 12 L5 10 L7 10 L8 5 L9 15 L10 10 L12 10 L13 3 L14 17 L15 10 L17 10 L18 7 L19 13 L20 10 L22 10 L23 4 L24 16 L25 10 L27 10 L28 6 L29 14 L30 10 L32 10 L33 2 L34 18 L35 10 L37 10 L38 8 L39 12 L40 10 L42 10 L43 5 L44 15 L45 10 L47 10 L48 9 L49 11 L50 10 L52 10 L53 6 L54 14 L55 10 L57 10 L58 10 L60 10" class="audio-wave" />
+           <!-- 模拟真实的语音波形包络：包含起振、主峰、静音间隙、次峰 -->
+           <path d="M0 10 L2 10 L3 9 L4 11 L5 8 L6 12 L7 9 L8 11 L9 10 L12 10 L13 7 L14 13 L15 5 L16 15 L17 4 L18 16 L19 6 L20 14 L21 8 L22 12 L23 10 L26 10 L27 8 L28 12 L29 6 L30 14 L31 5 L32 15 L33 9 L34 11 L35 10 L38 10 L39 7 L40 13 L41 4 L42 16 L43 3 L44 17 L45 5 L46 15 L47 8 L48 12 L49 10 L52 10 L53 9 L54 11 L55 10 L60 10" class="audio-wave" />
         </svg>
       </div>
     </div>
