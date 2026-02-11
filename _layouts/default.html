@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }} | Desktop</title>
   
-  <link rel="stylesheet" href="/assets/css/style.css?v=4">
+  <link rel="stylesheet" href="/assets/css/style.css?v=5">
   
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
@@ -59,9 +59,6 @@
 </head>
 <body>
 
-<!-- IPA 字符雨背景 Canvas -->
-<canvas id="ipa-rain"></canvas>
-
 <div class="container">
 
   <!-- 1. 顶部面板 -->
@@ -113,59 +110,6 @@
   </footer>
 
 </div>
-
-<!-- IPA 字符雨脚本 -->
-<script>
-  (function() {
-    const canvas = document.getElementById('ipa-rain');
-    const ctx = canvas.getContext('2d');
-    
-    let width, height;
-    
-    // 语言学彩蛋：国际音标字符集
-    const ipaChars = "əʃʒŋθðʔχʁβɸɥmrnwtskzpbtdkgaeiouɛɔɑ";
-    const charArray = ipaChars.split('');
-    
-    let drops = [];
-    const fontSize = 14;
-    
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      
-      const columns = width / fontSize;
-      drops = [];
-      for(let i = 0; i < columns; i++) {
-        drops[i] = Math.random() * -100; // 随机初始高度
-      }
-    }
-    
-    function draw() {
-      // 制造拖尾效果：使用带透明度的背景色覆盖上一帧
-      // 使用 CDE 背景色但透明度很低
-      ctx.fillStyle = 'rgba(94, 125, 138, 0.1)'; 
-      ctx.fillRect(0, 0, width, height);
-      
-      // 文字颜色：深青色/黑色，融入背景
-      ctx.fillStyle = '#2f454a'; 
-      ctx.font = fontSize + 'px monospace';
-      
-      for(let i = 0; i < drops.length; i++) {
-        const text = charArray[Math.floor(Math.random() * charArray.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        
-        if(drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-    
-    window.addEventListener('resize', resize);
-    resize();
-    setInterval(draw, 50); // 20FPS
-  })();
-</script>
 
 </body>
 </html>
