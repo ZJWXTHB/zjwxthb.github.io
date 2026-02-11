@@ -31,7 +31,9 @@ My academic journey is defined by a dual obsession with structure—the invisibl
 Unlike traditional qualitative approaches, I prefer to decode these structures through a computational lens. Whether I am analyzing the spectral tilt of breathy vowels or modeling social network dynamics, my goal is to quantify the abstract.
 
 ### Research Interest
-* Language Variation and Change, Computational Linguistics, Quantitative Methods
+* Language Variation and Change
+* Computational Linguistics
+* Quantitative Methods
 
 ---
 
