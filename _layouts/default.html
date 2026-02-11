@@ -36,33 +36,28 @@
     
     .spectrum-visual {
       display: flex;
-      align-items: flex-end;
-      gap: 1px;
-      height: 16px;
-      width: 30px;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      width: 40px; /*稍微宽一点展示曲线*/
+      overflow: hidden;
     }
     
-    .spec-bar {
-      width: 4px;
-      background-color: #0f0;
-      /* 基础动画：模拟人声微小抖动 (Jitter) */
-      animation: pulse 0.15s infinite alternate;
-      transform-origin: bottom; /* 确保从底部向上伸缩 */
+    /* SVG 曲线样式 */
+    .tone-path {
+      fill: none;
+      stroke: #0f0;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      /* 模拟电子束的不稳定抖动 */
+      animation: beam-jitter 0.1s infinite alternate;
+      filter: drop-shadow(0 0 1px #0f0); /* 荧光辉光效果 */
     }
-    
-    /* 模拟 2-4-1 声调曲线 (五度值) 
-       分布：2(半低) -> 4(半高) -> 1(低)
-       把5个条看作时间轴上的采样点
-    */
-    .spec-bar:nth-child(1) { height: 40%; animation-duration: 0.12s; } /* 调值 2 */
-    .spec-bar:nth-child(2) { height: 60%; animation-duration: 0.15s; } /* 爬升 */
-    .spec-bar:nth-child(3) { height: 90%; animation-duration: 0.11s; } /* 调值 4 (峰值) */
-    .spec-bar:nth-child(4) { height: 50%; animation-duration: 0.14s; } /* 下降 */
-    .spec-bar:nth-child(5) { height: 20%; animation-duration: 0.13s; } /* 调值 1 (低尾) */
 
-    @keyframes pulse {
-      0% { opacity: 0.8; transform: scaleY(1); }
-      100% { opacity: 1; transform: scaleY(1.1); }
+    @keyframes beam-jitter {
+      0% { transform: translateY(0.5px); opacity: 0.8; }
+      100% { transform: translateY(-0.5px); opacity: 1; }
     }
 
     .ling-label {
@@ -87,16 +82,22 @@
     
     <div style="flex-grow:1;"></div>
     
-    <!-- 语言学特色组件：模拟频谱/声学分析 -->
+    <!-- 语言学特色组件：模拟声调曲线示波器 -->
     <!-- 外层是凹陷的显示屏 (CDE Inset) -->
     <div class="cde-inset ling-widget">
-      <!-- 动态频谱条 -->
+      <!-- 动态声调曲线 (SVG) -->
       <div class="spectrum-visual">
-        <div class="spec-bar"></div> <!-- T2 -->
-        <div class="spec-bar"></div> <!-- Rise -->
-        <div class="spec-bar"></div> <!-- T4 -->
-        <div class="spec-bar"></div> <!-- Fall -->
-        <div class="spec-bar"></div> <!-- T1 -->
+        <!-- ViewBox: 0 0 40 20 -->
+        <svg width="100%" height="100%" viewBox="0 0 40 20" preserveAspectRatio="none">
+           <!-- 
+              2-4-1 曲线绘制逻辑 (Y轴向下):
+              Start (T2): x=2, y=12 (中低)
+              Peak  (T4): x=20, y=4 (高)
+              End   (T1): x=38, y=16 (低)
+              使用二次贝塞尔曲线 (Q) 平滑连接
+           -->
+           <path d="M 2 12 Q 18 2 38 16" class="tone-path" />
+        </svg>
       </div>
       <!-- 文本标签 -->
       <div class="ling-label">
