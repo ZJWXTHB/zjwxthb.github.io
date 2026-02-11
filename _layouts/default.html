@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <header class="window">
+      <div class="title-bar">System_Menu</div>
+      <nav class="content">
+        <a href="/">[ 首页 / Home ]</a>
+        <a href="/cv">[ 简历 / CV ]</a>
+        <a href="/publications">[ 研究 / Research ]</a>
+        <a href="#blog">[ 博客 / Blog ]</a>
+      </nav>
+    </header>
+
+    <main class="window">
+      <div class="title-bar">
+        {% if page.title %}{{ page.title }}{% else %}Term{% endif %}
+      </div>
+      <div class="content markdown-body">
+        {{ content }}
+      </div>
+    </main>
+
+    <footer>
+      <p>Powered by OpenBSD Spirit & Jekyll.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
