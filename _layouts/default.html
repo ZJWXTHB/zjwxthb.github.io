@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }} | Desktop</title>
   
-  <!-- 注意：?v=3 用于强制刷新缓存 -->
-  <link rel="stylesheet" href="/assets/css/style.css?v=3">
+  <link rel="stylesheet" href="/assets/css/style.css?v=4">
   
-  <!-- LaTeX 支持 -->
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
@@ -21,42 +19,39 @@
     };
   </script>
 
-  <!-- 嵌入式样式：专门用于频谱图小组件 -->
+  <!-- 小控件样式 -->
   <style>
     .ling-widget {
       display: flex;
       align-items: center;
-      justify-content: center; /* 居中波形 */
-      background: #000;
-      padding: 2px 4px;
-      color: #0f0; /* 示波器绿 */
-      height: 28px;
-      width: 70px; /* 固定宽度 */
-    }
-    
-    .spectrum-visual {
-      display: flex;
-      align-items: center;
       justify-content: center;
-      height: 100%;
-      width: 100%;
+      background: #000;
+      padding: 0;
+      color: #0f0;
+      height: 32px;
+      width: 80px;
       overflow: hidden;
+      position: relative;
     }
     
-    /* 音频波形样式 */
-    .audio-wave {
+    /* 共振峰线条样式 */
+    .formant-line {
       fill: none;
       stroke: #0f0;
-      stroke-width: 1.2px;
-      stroke-linejoin: round;
       stroke-linecap: round;
-      /* 改为水平滚动动画，模拟实时录音的“走带”效果 */
-      animation: wave-scroll 2s linear infinite;
-      filter: drop-shadow(0 0 2px rgba(0, 255, 0, 0.6)); /* 荧光辉光 */
+      stroke-linejoin: round;
+      animation: formant-scroll 3s linear infinite;
+      filter: drop-shadow(0 0 1px rgba(0, 255, 0, 0.5));
     }
 
-    /* 滚动动画：将波形向左移动50%的自身宽度（因为路径是重复的两段） */
-    @keyframes wave-scroll {
+    /* F1: 粗，低频，深色 */
+    .f1 { stroke-width: 2.5px; opacity: 0.9; animation-duration: 4s; }
+    /* F2: 中，中频 */
+    .f2 { stroke-width: 1.5px; opacity: 0.7; animation-duration: 4s; }
+    /* F3: 细，高频，浅色 */
+    .f3 { stroke-width: 1px; opacity: 0.5; animation-duration: 4s; }
+
+    @keyframes formant-scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
@@ -64,9 +59,12 @@
 </head>
 <body>
 
+<!-- IPA 字符雨背景 Canvas -->
+<canvas id="ipa-rain"></canvas>
+
 <div class="container">
 
-  <!-- 1. 顶部面板 (Front Panel / Dock) -->
+  <!-- 1. 顶部面板 -->
   <div class="front-panel cde-outset">
     <div style="font-weight:bold; margin-right:10px;">Workspace:</div>
     
@@ -77,39 +75,37 @@
     
     <div style="flex-grow:1;"></div>
     
-    <!-- 语言学特色组件：模拟音频波形 -->
-    <!-- 外层是凹陷的显示屏 (CDE Inset) -->
-    <div class="cde-inset ling-widget">
-      <div class="spectrum-visual">
-        <!-- ViewBox 宽60，但我们将绘制宽120的路径以实现滚动循环 -->
-        <svg width="100%" height="100%" viewBox="0 0 60 20" preserveAspectRatio="none">
-           <!-- 
-              绘制两段完全相同的波形 (0-60 和 60-120)，连接在一起。
-              动画会移动它，当第二段移动到第一段的位置时复位，实现无缝循环。
-           -->
-           <path d="M0 10 L5 10 L8 5 L11 15 L14 8 L17 12 L20 10 L25 10 L28 10 L31 4 L34 16 L37 7 L40 13 L43 10 L48 10 L51 6 L54 14 L57 10 L60 10 L65 10 L68 5 L71 15 L74 8 L77 12 L80 10 L85 10 L88 10 L91 4 L94 16 L97 7 L100 13 L103 10 L108 10 L111 6 L114 14 L117 10 L120 10" class="audio-wave" />
-        </svg>
-      </div>
+    <!-- 语言学特色组件：共振峰瀑布图 (Formant Waterfall) -->
+    <div class="cde-inset ling-widget" title="Real-time Formant Tracker">
+      <svg width="100%" height="100%" viewBox="0 0 100 30" preserveAspectRatio="none">
+         <!-- 绘制两条重复的路径以实现无缝滚动 -->
+         
+         <!-- F3 (High) -->
+         <path class="formant-line f3" d="M0 5 Q10 2 20 5 T40 5 T60 3 T80 5 T100 5 M100 5 Q110 2 120 5 T140 5 T160 3 T180 5 T200 5" />
+         
+         <!-- F2 (Mid) -->
+         <path class="formant-line f2" d="M0 15 Q15 12 30 15 T60 18 T90 15 T120 15 M100 15 Q115 12 130 15 T160 18 T190 15 T220 15" />
+         
+         <!-- F1 (Low) -->
+         <path class="formant-line f1" d="M0 25 Q20 28 40 25 T80 22 T120 25 M100 25 Q120 28 140 25 T180 22 T220 25" />
+      </svg>
     </div>
   </div>
 
-  <!-- 2. 主窗口 (Main Window) -->
+  <!-- 2. 主窗口 -->
   <div class="main-window cde-outset">
-    
-    <!-- 标题栏 -->
     <div class="title-bar active">
       <span>▼</span>
       <span style="margin-left:5px;">
         {% if page.title %}{{ page.title }}{% else %}Text Editor{% endif %} - [Read Only]
       </span>
       <div class="grip-lines"></div>
+      <!-- No buttons -->
     </div>
 
-    <!-- 内容区域 (White Paper) -->
     <div class="content-pane cde-inset markdown-body">
       {{ content }}
     </div>
-
   </div>
 
   <footer style="text-align:center; font-size:12px; color:#3d545e; margin-top:20px;">
@@ -117,6 +113,59 @@
   </footer>
 
 </div>
+
+<!-- IPA 字符雨脚本 -->
+<script>
+  (function() {
+    const canvas = document.getElementById('ipa-rain');
+    const ctx = canvas.getContext('2d');
+    
+    let width, height;
+    
+    // 语言学彩蛋：国际音标字符集
+    const ipaChars = "əʃʒŋθðʔχʁβɸɥmrnwtskzpbtdkgaeiouɛɔɑ";
+    const charArray = ipaChars.split('');
+    
+    let drops = [];
+    const fontSize = 14;
+    
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      
+      const columns = width / fontSize;
+      drops = [];
+      for(let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100; // 随机初始高度
+      }
+    }
+    
+    function draw() {
+      // 制造拖尾效果：使用带透明度的背景色覆盖上一帧
+      // 使用 CDE 背景色但透明度很低
+      ctx.fillStyle = 'rgba(94, 125, 138, 0.1)'; 
+      ctx.fillRect(0, 0, width, height);
+      
+      // 文字颜色：深青色/黑色，融入背景
+      ctx.fillStyle = '#2f454a'; 
+      ctx.font = fontSize + 'px monospace';
+      
+      for(let i = 0; i < drops.length; i++) {
+        const text = charArray[Math.floor(Math.random() * charArray.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    
+    window.addEventListener('resize', resize);
+    resize();
+    setInterval(draw, 50); // 20FPS
+  })();
+</script>
 
 </body>
 </html>
