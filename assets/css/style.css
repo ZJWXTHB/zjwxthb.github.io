@@ -1,141 +1,187 @@
 :root {
-  /* CDE 琥珀色/土黄配色方案 */
-  --bg-desktop: #000000;         /* 桌面背景：纯黑 */
+  /* === CDE Default "Mariner" Palette === */
   
-  --cde-surface: #bd9653;        /* 控件表面：土黄色 */
-  --cde-light: #ffeeb0;          /* 高光：亮黄色 */
-  --cde-shadow: #5e461f;         /* 阴影：深褐色 */
-  --cde-text: #000000;           /* UI文字：黑色 */
+  /* 界面基色：经典的 CDE 蓝青色 */
+  --cde-base: #5e8a94; 
   
-  --content-bg: #1c1408;         /* 内容区域背景：深咖啡色 */
-  --content-text: #ffbc57;       /* 内容文字：亮橙色 */
+  /* 3D 浮雕高光 (比基色亮) */
+  --cde-light: #9abdc5;
   
-  --border-width: 4px;           /* 边框厚度：厚！ */
+  /* 3D 浮雕阴影 (比基色暗) */
+  --cde-dark: #2f454a;
+  
+  /* 文本颜色 */
+  --text-ui: #000000;          /* 界面上的文字 */
+  --text-content: #1a1a1a;     /* 文章内容的文字 */
+  
+  /* 内容区域背景：浅灰，适合长时间阅读 */
+  --content-bg: #e0e0e0;
+  
+  /* 强调色 (用于链接) */
+  --accent-color: #b03030;     /* 砖红色，CDE 常用报错/强调色 */
+
+  /* 边框厚度：精致化 */
+  --border-thick: 3px;         /* 窗口边框 */
+  --border-thin: 2px;          /* 按钮/输入框 */
 }
 
 body {
-  background-color: var(--bg-desktop);
-  /* 点阵纹理背景 */
-  background-image: radial-gradient(#333 1px, transparent 1px);
-  background-size: 10px 10px;
-  font-family: "Courier New", Courier, monospace;
-  margin: 20px;
-  color: var(--cde-text);
+  background-color: #38565e; /* 桌面背景比窗口深一点 */
+  /* 经典的背景纹理 */
+  background-image: linear-gradient(45deg, #334e55 25%, transparent 25%, transparent 75%, #334e55 75%, #334e55), 
+                    linear-gradient(45deg, #334e55 25%, transparent 25%, transparent 75%, #334e55 75%, #334e55);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* CDE 界面常用无衬线体 */
+  color: var(--text-ui);
+  margin: 0;
+  padding: 20px;
+  line-height: 1.5;
 }
 
-/* === 1. 核心 CDE 窗口 (凸起效果) === */
-.cde-window {
-  background-color: var(--cde-surface);
-  padding: 5px;
-  margin-bottom: 30px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  
-  /* 3D 凸起边框逻辑 */
+/* 布局容器 */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* === CDE 3D 边框 Mixins === */
+/* 凸起 (Outset) */
+.bevel-out {
   border-style: solid;
-  border-width: var(--border-width);
-  border-top-color: var(--cde-light);    /* 上亮 */
-  border-left-color: var(--cde-light);   /* 左亮 */
-  border-right-color: var(--cde-shadow); /* 右暗 */
-  border-bottom-color: var(--cde-shadow);/* 下暗 */
-  
-  box-shadow: 10px 10px 0px rgba(0,0,0,0.6); /* 窗口硬投影 */
+  border-width: var(--border-thick);
+  border-top-color: var(--cde-light);
+  border-left-color: var(--cde-light);
+  border-right-color: var(--cde-dark);
+  border-bottom-color: var(--cde-dark);
 }
 
-/* === 2. 标题栏 === */
-.cde-title-bar {
-  background-color: var(--cde-shadow); /* 深色标题栏 */
-  color: var(--cde-light);
-  padding: 4px 8px;
-  margin-bottom: 8px;
+/* 凹陷 (Inset) */
+.bevel-in {
+  border-style: solid;
+  border-width: var(--border-thin);
+  border-top-color: var(--cde-dark);
+  border-left-color: var(--cde-dark);
+  border-right-color: var(--cde-light);
+  border-bottom-color: var(--cde-light);
+}
+
+/* === 窗口组件 === */
+.window {
+  background-color: var(--cde-base);
+  margin-bottom: 25px;
+  padding: 4px; /* 边框和内容之间的间隙 */
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.3); /* 轻微的投影 */
+}
+
+/* 标题栏 */
+.title-bar {
+  background-color: var(--cde-base); /* 标题栏颜色与窗口一致 */
+  color: var(--text-ui);
+  padding: 2px 6px;
   font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--cde-shadow);
+}
+/* 标题栏上的装饰线 (模拟 Motif 风格抓手) */
+.title-grip {
+  flex-grow: 1;
+  height: 2px;
+  border-top: 1px solid var(--cde-dark);
+  border-bottom: 1px solid var(--cde-light);
+  margin: 0 10px;
 }
 
-.cde-title-text {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* === 3. 内部凹陷面板 (凹陷效果) === */
-.cde-inset-content {
+/* 窗口内容区域 - 凹陷的浅色面板 */
+.window-content {
   background-color: var(--content-bg);
-  color: var(--content-text);
-  padding: 20px;
-  
-  /* 3D 凹陷边框逻辑 (与凸起相反) */
-  border-style: solid;
-  border-width: var(--border-width);
-  border-top-color: var(--cde-shadow);   /* 上暗 */
-  border-left-color: var(--cde-shadow);  /* 左暗 */
-  border-right-color: var(--cde-light);  /* 右亮 */
-  border-bottom-color: var(--cde-light); /* 下亮 */
-  
-  overflow: auto;
+  color: var(--text-content);
+  padding: 25px;
+  font-family: "Times New Roman", Times, serif; /* 学术内容回归衬线体，更易读 */
 }
 
-/* 导航面板特殊样式 */
-.nav-panel {
-  background-color: var(--cde-surface); /* 导航背景保持表面色 */
-  padding: 10px;
+/* === 导航按钮 === */
+.nav-bar {
   display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
+  gap: 8px;
+  padding: 5px;
+  background-color: var(--cde-base);
 }
 
-/* === 4. CDE 按钮 === */
 .cde-btn {
-  background-color: var(--cde-surface);
-  color: var(--cde-text);
+  background-color: var(--cde-base);
+  color: var(--text-ui);
   text-decoration: none;
+  padding: 4px 12px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 0.9em;
   font-weight: bold;
-  padding: 5px 15px;
   
   /* 按钮凸起 */
   border-style: solid;
-  border-width: 3px;
+  border-width: var(--border-thin);
   border-top-color: var(--cde-light);
   border-left-color: var(--cde-light);
-  border-right-color: var(--cde-shadow);
-  border-bottom-color: var(--cde-shadow);
-  
-  transition: none; /* 复古界面不需要平滑过渡 */
+  border-right-color: var(--cde-dark);
+  border-bottom-color: var(--cde-dark);
 }
 
 .cde-btn:hover {
-  background-color: #d1ab6b; /* 稍微变亮 */
+  background-color: #6a9ba6; /* 稍微变亮 */
 }
 
 .cde-btn:active {
-  /* 按钮按下：反转边框颜色 */
-  border-top-color: var(--cde-shadow);
-  border-left-color: var(--cde-shadow);
+  /* 按下反转 */
+  border-top-color: var(--cde-dark);
+  border-left-color: var(--cde-dark);
   border-right-color: var(--cde-light);
   border-bottom-color: var(--cde-light);
-  
-  padding: 6px 14px 4px 16px; /* 模拟位移 */
+  padding: 5px 11px 3px 13px; /* 微位移 */
 }
 
-/* === 内容排版优化 === */
-a { color: #ff9900; text-decoration: none; border-bottom: 1px dotted; }
-h1, h2, h3 { color: #ffeb3b; border-bottom: 2px dashed #5e461f; padding-bottom: 5px; margin-top: 0; }
-code { background: #332600; color: #ffeb3b; padding: 2px 5px; }
-pre { background: #000; border: 1px solid #5e461f; padding: 10px; color: #ffeb3b; overflow-x: auto; }
+/* === 排版细节 === */
+h1, h2, h3 {
+  border-bottom: 2px solid #b0b0b0;
+  color: #333;
+  margin-top: 1.5em;
+  font-family: Helvetica, Arial, sans-serif; /* 标题用无衬线 */
+}
 
-/* 图片加相框 */
+a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+code {
+  background-color: #fff;
+  border: 1px solid #999;
+  padding: 2px 4px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: #f0f0f0;
+  border: 1px solid #999; /* 简单的线框，不需要太复杂的3D */
+  padding: 10px;
+  overflow-x: auto;
+}
+
 img {
-  border: 4px solid var(--cde-surface);
-  outline: 2px solid var(--cde-shadow);
+  border: 2px solid var(--cde-dark);
   max-width: 100%;
 }
-
-footer {
-  text-align: center;
-  color: #666;
-  margin-top: 20px;
-  font-size: 12px;
+.profile-img {
+  float: right;
+  width: 160px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  /* 照片也加上凹陷框 */
+  border: 2px solid #999;
+  padding: 4px;
+  background: #fff;
 }
