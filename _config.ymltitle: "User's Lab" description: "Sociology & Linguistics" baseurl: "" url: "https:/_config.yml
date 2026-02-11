@@ -1,9 +1,0 @@
-title: "Huanbin Teng (滕焕斌)"
-description: "Language Variation and Change"
-baseurl: ""
-url: "https://zjwxthb.github.io"
-theme: null
-
-markdown: kramdown
-plugins:
-  - jekyll-seo-tag
