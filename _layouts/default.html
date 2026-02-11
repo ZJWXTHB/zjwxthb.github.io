@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }}</title>
+  <title>{{ page.title }} | CDE_Env</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   
   <script type="text/javascript" id="MathJax-script" async
@@ -20,40 +20,35 @@
 </head>
 <body>
 
-  <div class="cde-window">
-    <div class="cde-title-bar">
-      <span class="cde-title-text">System_Control</span>
-      <div class="cde-window-controls">_ □ X</div>
-    </div>
+  <div class="container">
     
-    <div class="cde-inset-content nav-panel">
-      <a href="/" class="cde-btn">主页 [Home]</a>
-      <a href="/cv" class="cde-btn">简历 [CV]</a>
-      <a href="/publications" class="cde-btn">研究 [Research]</a>
-      <a href="#blog" class="cde-btn">博客 [Blog]</a>
+    <div class="window bevel-out">
+      <div class="nav-bar">
+        <a href="/" class="cde-btn">主页 (Home)</a>
+        <a href="/cv" class="cde-btn">简历 (CV)</a>
+        <a href="/publications" class="cde-btn">研究 (Research)</a>
+        <a href="/blog" class="cde-btn">博客 (Blog)</a>
+        <div style="flex-grow: 1;"></div> <span style="font-size: 0.8em; align-self: center;">System: Online</span>
+      </div>
     </div>
-  </div>
 
-  <br>
-
-  <div class="cde-window">
-    <div class="cde-title-bar">
-      <span class="cde-title-text">
-        {% if page.title %}{{ page.title }}{% else %}Terminal{% endif %}
-      </span>
-      <div class="cde-window-controls">_ □ X</div>
-    </div>
-    
-    <div class="cde-inset-content">
-      <div class="markdown-body">
+    <div class="window bevel-out">
+      <div class="title-bar">
+        <span>▼</span> <span style="margin-left: 5px;">
+            {% if page.title %}{{ page.title }}{% else %}Viewer{% endif %}
+        </span>
+        <div class="title-grip"></div> <span>□</span> <span style="margin-left:5px;">X</span> </div>
+      
+      <div class="window-content bevel-in markdown-body">
         {{ content }}
       </div>
     </div>
-  </div>
 
-  <footer>
-    <p>Powered by OpenBSD & CDE Style.</p>
-  </footer>
+    <footer style="text-align: center; color: #9abdc5; font-size: 0.8em;">
+      <p>Designed for CDE (Common Desktop Environment) compatibility.</p>
+    </footer>
+
+  </div>
 
 </body>
 </html>
