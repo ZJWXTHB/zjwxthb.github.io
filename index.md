@@ -18,11 +18,8 @@ Fig 1. Wideband spectrogram of my name utterance (Praat 6.0).
 </figcaption>
 </figure>
 
-I am currently a student of Linguistics at [Insert University Name], standing at the fascinating intersection of Sociology and Computational Linguistics.
+I am currently a student of Linguistics at [Insert University Name], standing at the fascinating intersection of Variationist Linguistics and Computational Linguistics.
 
-My academic journey is defined by a dual obsession with structure—the invisible architectures that govern our reality. I am as captivated by the macro-level hierarchies of social organization as I am by the micro-level recursions of syntactic trees and the acoustic patterns of speech.
-
-Unlike traditional qualitative approaches, I prefer to decode these structures through a computational lens. Whether I am analyzing the spectral tilt of breathy vowels or modeling social network dynamics, my goal is to quantify the abstract.
 
 ### Research Interest
 * Language Variation and Change
