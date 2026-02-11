@@ -25,6 +25,7 @@ I am currently a student of Linguistics at [Insert University Name], standing at
 * Language Variation and Change
 * Computational Linguistics
 * Quantitative Methods
+
 ---
   
   >
