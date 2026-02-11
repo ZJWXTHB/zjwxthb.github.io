@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }} | {{ site.title }}</title>
+  <title>{{ page.title }} | CDE_Term</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   
   <script type="text/javascript" id="MathJax-script" async
@@ -21,27 +21,29 @@
 <body>
 
   <div class="container">
-    <header class="window">
-      <div class="title-bar">System_Menu</div>
-      <nav class="content">
-        <a href="/">[ 首页 / Home ]</a>
-        <a href="/cv">[ 简历 / CV ]</a>
-        <a href="/publications">[ 研究 / Research ]</a>
-        <a href="#blog">[ 博客 / Blog ]</a>
+    
+    <header class="window-frame">
+      <div class="title-bar">Applications / System_Menu</div>
+      <nav class="nav-buttons">
+        <a href="/" class="cde-btn">首页 Home</a>
+        <a href="/cv" class="cde-btn">简历 CV</a>
+        <a href="/publications" class="cde-btn">研究 Research</a>
+        <a href="#blog" class="cde-btn">博客 Blog</a>
       </nav>
     </header>
 
-    <main class="window">
+    <main class="window-frame">
       <div class="title-bar">
-        {% if page.title %}{{ page.title }}{% else %}Term{% endif %}
+        {% if page.title %}{{ page.title }}{% else %}Terminal{% endif %} - [Active]
       </div>
-      <div class="content markdown-body">
+      
+      <div class="window-pane markdown-body">
         {{ content }}
       </div>
     </main>
 
     <footer>
-      <p>Powered by OpenBSD Spirit & Jekyll.</p>
+      <p>[ Process completed. CDE Style loaded. ]</p>
     </footer>
   </div>
 
