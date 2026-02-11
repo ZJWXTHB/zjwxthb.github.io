@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }} | CDE_Env</title>
+  <title>{{ page.title }}</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   
   <script type="text/javascript" id="MathJax-script" async
@@ -22,30 +22,33 @@
 
   <div class="container">
     
-    <div class="window bevel-out">
-      <div class="nav-bar">
-        <a href="/" class="cde-btn">主页 (Home)</a>
-        <a href="/cv" class="cde-btn">简历 (CV)</a>
-        <a href="/publications" class="cde-btn">研究 (Research)</a>
-        <a href="/blog" class="cde-btn">博客 (Blog)</a>
-        <div style="flex-grow: 1;"></div> <span style="font-size: 0.8em; align-self: center;">System: Online</span>
-      </div>
+    <div class="front-panel cde-outset">
+      <div style="font-weight:bold; margin-right:10px;">System:</div>
+      <a href="/" class="nav-btn">首页 Home</a>
+      <a href="/cv" class="nav-btn">简历 CV</a>
+      <a href="/publications" class="nav-btn">学术 Research</a>
+      <a href="#blog" class="nav-btn">博客 Blog</a>
+      <div style="flex-grow:1;"></div>
+      <div style="font-size:0.8em;">CPU: Online</div>
     </div>
 
-    <div class="window bevel-out">
-      <div class="title-bar">
-        <span>▼</span> <span style="margin-left: 5px;">
-            {% if page.title %}{{ page.title }}{% else %}Viewer{% endif %}
-        </span>
-        <div class="title-grip"></div> <span>□</span> <span style="margin-left:5px;">X</span> </div>
+    <div class="window cde-outset">
       
-      <div class="window-content bevel-in markdown-body">
+      <div class="title-bar">
+        <span>▼</span>
+        <span style="margin-left:5px;">
+          {% if page.title %}{{ page.title }}{% else %}Text Editor{% endif %}
+        </span>
+        <div class="title-grip"></div> <span class="win-ctrl"></span> <span class="win-ctrl" style="background:#000;"></span> </div>
+      
+      <div class="content-pane cde-inset markdown-body">
         {{ content }}
       </div>
+      
     </div>
 
-    <footer style="text-align: center; color: #9abdc5; font-size: 0.8em;">
-      <p>Designed for CDE (Common Desktop Environment) compatibility.</p>
+    <footer>
+      <p>Session ID: 2026-USER | CDE Theme</p>
     </footer>
 
   </div>
