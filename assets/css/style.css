@@ -1,0 +1,92 @@
+:root {
+  /* 调色板：复古琥珀色/深橙色 */
+  --bg-color: #121212;         /* 极深灰，接近黑 */
+  --text-color: #e6c885;       /* 浅琥珀色，阅读舒适 */
+  --accent-color: #ffb52a;     /* 亮橙/黄色，用于高亮 */
+  --border-color: #997000;     /* 深金黄色边框 */
+  --title-bg: #997000;         /* 标题栏背景 */
+  --title-text: #000000;       /* 标题栏文字 */
+  --link-color: #ff7b00;       /* 深橙色链接 */
+  --code-bg: #1c1c1c;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Courier New", Courier, monospace; /* 强制等宽字体 */
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* 布局容器 */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* 链接样式 */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--link-color);
+}
+a:hover {
+  background-color: var(--link-color);
+  color: #000;
+}
+
+/* OpenBSD 窗口风格 */
+.window {
+  border: 2px solid var(--border-color);
+  margin-bottom: 20px;
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px 0px #000; /* 硬阴影 */
+}
+
+.title-bar {
+  background-color: var(--title-bg);
+  color: var(--title-text);
+  padding: 2px 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.content {
+  padding: 20px;
+}
+
+/* 图片样式 */
+img {
+  max-width: 100%;
+  border: 1px solid var(--accent-color);
+  filter: sepia(0.5) contrast(1.1); /* 稍微加点复古滤镜 */
+}
+
+.profile-img {
+  float: left;
+  width: 150px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+/* 代码块样式 */
+pre, code {
+  background-color: var(--code-bg);
+  color: var(--accent-color);
+  border: 1px solid #444;
+  padding: 2px 4px;
+}
+pre {
+  padding: 10px;
+  overflow-x: auto;
+}
+
+/* 标题样式 */
+h1, h2, h3 {
+  color: var(--accent-color);
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 5px;
+}
