@@ -7,7 +7,7 @@ title: user@home:~$
 
 ### About Me
 
-I am Huanbin Teng (滕焕斌) <span style="font-family: 'Charis SIL', 'Times New Roman', serif; font-size: 1.2em; color: #b03030;">[tʰəŋ˧˥ xwan˥˩ pin˥˥]</span>.
+I am Huanbin Teng (滕焕斌) <span style="font-family: 'Charis SIL', 'Times New Roman', serif; font-size: 1.2em; color: #b03030;">[tʰəŋ˧˥ xwan˥˩ pin˥]</span>.
 
 <!-- Spectrogram Image Placeholder -->
 
