@@ -27,33 +27,19 @@
       justify-content: center;
       background: #000;
       padding: 0;
-      color: #0f0;
+      /* 移除文字颜色设置，交给 Canvas 处理 */
       height: 32px;
       width: 80px;
       overflow: hidden;
       position: relative;
     }
     
-    /* 共振峰线条样式 */
-    .formant-line {
-      fill: none;
-      stroke: #0f0;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      animation: formant-scroll 3s linear infinite;
-      filter: drop-shadow(0 0 1px rgba(0, 255, 0, 0.5));
-    }
-
-    /* F1: 粗，低频，深色 */
-    .f1 { stroke-width: 2.5px; opacity: 0.9; animation-duration: 4s; }
-    /* F2: 中，中频 */
-    .f2 { stroke-width: 1.5px; opacity: 0.7; animation-duration: 4s; }
-    /* F3: 细，高频，浅色 */
-    .f3 { stroke-width: 1px; opacity: 0.5; animation-duration: 4s; }
-
-    @keyframes formant-scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    #ipa-widget-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
@@ -72,20 +58,9 @@
     
     <div style="flex-grow:1;"></div>
     
-    <!-- 语言学特色组件：共振峰瀑布图 (Formant Waterfall) -->
-    <div class="cde-inset ling-widget" title="Real-time Formant Tracker">
-      <svg width="100%" height="100%" viewBox="0 0 100 30" preserveAspectRatio="none">
-         <!-- 绘制两条重复的路径以实现无缝滚动 -->
-         
-         <!-- F3 (High) -->
-         <path class="formant-line f3" d="M0 5 Q10 2 20 5 T40 5 T60 3 T80 5 T100 5 M100 5 Q110 2 120 5 T140 5 T160 3 T180 5 T200 5" />
-         
-         <!-- F2 (Mid) -->
-         <path class="formant-line f2" d="M0 15 Q15 12 30 15 T60 18 T90 15 T120 15 M100 15 Q115 12 130 15 T160 18 T190 15 T220 15" />
-         
-         <!-- F1 (Low) -->
-         <path class="formant-line f1" d="M0 25 Q20 28 40 25 T80 22 T120 25 M100 25 Q120 28 140 25 T180 22 T220 25" />
-      </svg>
+    <!-- 语言学特色组件：微型 IPA 字符雨 -->
+    <div class="cde-inset ling-widget" title="IPA Stream">
+      <canvas id="ipa-widget-canvas"></canvas>
     </div>
   </div>
 
@@ -110,6 +85,56 @@
   </footer>
 
 </div>
+
+<!-- IPA 字符雨动画脚本 -->
+<script>
+  (function() {
+    const canvas = document.getElementById('ipa-widget-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // 设置画布内部分辨率与 CSS 显示尺寸一致
+    const width = 80;
+    const height = 32;
+    canvas.width = width;
+    canvas.height = height;
+    
+    // 国际音标字符集
+    const ipaChars = "əʃʒŋθðʔχʁβɸɥmrnwtskzpbtdkgaeiouɛɔɑ";
+    const charArray = ipaChars.split('');
+    
+    const fontSize = 10; // 小字体适配微型窗口
+    const columns = width / fontSize;
+    
+    const drops = [];
+    for(let i = 0; i < columns; i++) {
+      drops[i] = Math.random() * -10; // 随机起始位置
+    }
+    
+    function draw() {
+      // 黑色背景，带透明度以产生拖尾效果
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'; 
+      ctx.fillRect(0, 0, width, height);
+      
+      // 荧光绿文字
+      ctx.fillStyle = '#0f0'; 
+      ctx.font = fontSize + 'px monospace';
+      
+      for(let i = 0; i < drops.length; i++) {
+        const text = charArray[Math.floor(Math.random() * charArray.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        // 随机重置回顶部，形成循环雨
+        if(drops[i] * fontSize > height && Math.random() > 0.9) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    
+    // 动画循环
+    setInterval(draw, 60);
+  })();
+</script>
 
 </body>
 </html>
