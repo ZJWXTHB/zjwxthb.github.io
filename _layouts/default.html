@@ -26,44 +26,39 @@
     .ling-widget {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center; /* 居中波形 */
       background: #000;
-      padding: 2px 6px;
-      font-family: monospace;
+      padding: 2px 4px;
       color: #0f0; /* 示波器绿 */
       height: 28px;
+      width: 70px; /* 固定宽度 */
     }
     
     .spectrum-visual {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 22px;
-      width: 50px; /* 稍微加宽以容纳三个声调 */
+      height: 100%;
+      width: 100%;
       overflow: hidden;
     }
     
-    /* SVG 曲线样式 */
-    .tone-path {
+    /* 音频波形样式 */
+    .audio-wave {
       fill: none;
       stroke: #0f0;
-      stroke-width: 2px;
-      stroke-linecap: round;
+      stroke-width: 1.5px;
       stroke-linejoin: round;
-      /* 模拟电子束的不稳定抖动 */
-      animation: beam-jitter 0.1s infinite alternate;
-      filter: drop-shadow(0 0 1px #0f0); /* 荧光辉光效果 */
+      transform-origin: center;
+      /* 模拟说话时的振幅震动 */
+      animation: amplitude-mod 0.2s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 2px rgba(0, 255, 0, 0.6)); /* 荧光辉光 */
     }
 
-    @keyframes beam-jitter {
-      0% { transform: translateY(0.5px); opacity: 0.8; }
-      100% { transform: translateY(-0.5px); opacity: 1; }
-    }
-
-    .ling-label {
-      font-size: 11px;
-      line-height: 1;
-      opacity: 0.8;
+    @keyframes amplitude-mod {
+      0% { transform: scaleY(0.4); opacity: 0.7; }
+      50% { transform: scaleY(1.0); opacity: 1; }
+      100% { transform: scaleY(0.6); opacity: 0.8; }
     }
   </style>
 </head>
@@ -82,33 +77,15 @@
     
     <div style="flex-grow:1;"></div>
     
-    <!-- 语言学特色组件：模拟声调曲线示波器 -->
+    <!-- 语言学特色组件：模拟音频波形 -->
     <!-- 外层是凹陷的显示屏 (CDE Inset) -->
     <div class="cde-inset ling-widget">
-      <!-- 动态声调曲线 (SVG) -->
       <div class="spectrum-visual">
-        <!-- ViewBox: 0 0 50 20 (Y轴向下: 0是高音, 20是低音) -->
-        <svg width="100%" height="100%" viewBox="0 0 50 20" preserveAspectRatio="none">
-           <!-- 
-              三个声调的组合序列：
-              1. 2声 (阳平 35): 中升 (x:2-12)
-              2. 4声 (去声 51): 全降 (x:18-28)
-              3. 1声 (阴平 55): 高平 (x:34-44)
-           -->
-           <!-- T2: Rising -->
-           <path d="M 2 12 Q 8 12 12 4" class="tone-path" />
-           
-           <!-- T4: Falling -->
-           <path d="M 18 4 L 28 16" class="tone-path" />
-           
-           <!-- T1: High Level -->
-           <path d="M 34 4 L 46 4" class="tone-path" />
+        <!-- ViewBox: 0 0 60 20 -->
+        <svg width="100%" height="100%" viewBox="0 0 60 20" preserveAspectRatio="none">
+           <!-- 模拟一段时域上的语音波形 (Time Domain Waveform) -->
+           <path d="M0 10 L2 10 L3 8 L4 12 L5 10 L7 10 L8 5 L9 15 L10 10 L12 10 L13 3 L14 17 L15 10 L17 10 L18 7 L19 13 L20 10 L22 10 L23 4 L24 16 L25 10 L27 10 L28 6 L29 14 L30 10 L32 10 L33 2 L34 18 L35 10 L37 10 L38 8 L39 12 L40 10 L42 10 L43 5 L44 15 L45 10 L47 10 L48 9 L49 11 L50 10 L52 10 L53 6 L54 14 L55 10 L57 10 L58 10 L60 10" class="audio-wave" />
         </svg>
-      </div>
-      <!-- 文本标签 -->
-      <div class="ling-label">
-        <div>F0 Contour</div>
-        <div style="font-size:9px; color:#888;">Analysis</div>
       </div>
     </div>
   </div>
