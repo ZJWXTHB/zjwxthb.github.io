@@ -1,7 +1,7 @@
 /* =========================================
    CDE (Common Desktop Environment) Theme
    Palette: Default Teal (Mariner)
-   With Linguistics Visuals
+   With Linguistics Visuals (Formants Only)
    ========================================= */
 
 :root {
@@ -23,31 +23,21 @@
 body {
   margin: 0;
   padding: 20px;
-  /* 移除之前的背景色，交给 Canvas 处理，或者设为透明以显示 Canvas */
   background-color: var(--cde-bg);
+  /* 恢复经典的 CDE 粗糙背景纹理 */
+  background-image: linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%), 
+                    linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #000;
   line-height: 1.6;
-  overflow-x: hidden; /* 防止字符雨导致横向滚动条 */
-}
-
-/* IPA 字符雨 Canvas 的样式 */
-#ipa-rain {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* 放在最底层 */
-  opacity: 0.15; /* 极低透明度，不要干扰阅读 */
-  pointer-events: none; /* 鼠标穿透 */
 }
 
 .container {
   max-width: 900px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1; /* 确保内容浮在雨上面 */
 }
 
 /* =========================================
