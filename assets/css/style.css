@@ -1,187 +1,221 @@
-:root {
-  /* === CDE Default "Mariner" Palette === */
-  
-  /* 界面基色：经典的 CDE 蓝青色 */
-  --cde-base: #5e8a94; 
-  
-  /* 3D 浮雕高光 (比基色亮) */
-  --cde-light: #9abdc5;
-  
-  /* 3D 浮雕阴影 (比基色暗) */
-  --cde-dark: #2f454a;
-  
-  /* 文本颜色 */
-  --text-ui: #000000;          /* 界面上的文字 */
-  --text-content: #1a1a1a;     /* 文章内容的文字 */
-  
-  /* 内容区域背景：浅灰，适合长时间阅读 */
-  --content-bg: #e0e0e0;
-  
-  /* 强调色 (用于链接) */
-  --accent-color: #b03030;     /* 砖红色，CDE 常用报错/强调色 */
+/* =========================================
+   CDE (Common Desktop Environment) Theme
+   Style: "Mariner" (Default Teal)
+   Refined for Academic CV
+   ========================================= */
 
-  /* 边框厚度：精致化 */
-  --border-thick: 3px;         /* 窗口边框 */
-  --border-thin: 2px;          /* 按钮/输入框 */
+:root {
+  /* 基础色板 (CDE Default) */
+  --desktop-bg: #4b6976;       /* 背景桌面：深青色 */
+  --window-bg:  #729fa9;       /* 窗口表面：经典的 CDE 青色 */
+  
+  /* 3D 浮雕光影 (基于窗口色的变体) */
+  --bevel-light: #9dc4cc;      /* 左/上边框 (高光) */
+  --bevel-dark:  #435d63;      /* 右/下边框 (阴影) */
+  
+  /* 内容区域 */
+  --content-bg:   #eeeeee;     /* 浅灰白背景 (纸张感) */
+  --text-main:    #000000;     /* 正文文字 */
+  --text-ui:      #000000;     /* 界面文字 */
+  
+  /* 强调色 */
+  --link-color:   #b32d2d;     /* 砖红色 (Motif 风格链接) */
+  --code-bg:      #cccccc;
+  
+  /* 边框厚度 (精致化) */
+  --b-width: 2px;
+}
+
+/* 全局重置 */
+* {
+  box-sizing: border-box; 
 }
 
 body {
-  background-color: #38565e; /* 桌面背景比窗口深一点 */
-  /* 经典的背景纹理 */
-  background-image: linear-gradient(45deg, #334e55 25%, transparent 25%, transparent 75%, #334e55 75%, #334e55), 
-                    linear-gradient(45deg, #334e55 25%, transparent 25%, transparent 75%, #334e55 75%, #334e55);
-  background-size: 4px 4px;
-  background-position: 0 0, 2px 2px;
-  
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* CDE 界面常用无衬线体 */
+  background-color: var(--desktop-bg);
   color: var(--text-ui);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* 界面字体 */
+  font-size: 16px;
+  line-height: 1.5;
   margin: 0;
   padding: 20px;
-  line-height: 1.5;
 }
 
 /* 布局容器 */
 .container {
-  max-width: 860px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-/* === CDE 3D 边框 Mixins === */
-/* 凸起 (Outset) */
-.bevel-out {
+/* =========================================
+   CDE 3D 边框 Mixins (类)
+   ========================================= */
+
+/* 凸起效果 (Outset) - 用于窗口、按钮 */
+.cde-outset {
+  background-color: var(--window-bg);
   border-style: solid;
-  border-width: var(--border-thick);
-  border-top-color: var(--cde-light);
-  border-left-color: var(--cde-light);
-  border-right-color: var(--cde-dark);
-  border-bottom-color: var(--cde-dark);
+  border-width: var(--b-width);
+  border-top-color: var(--bevel-light);
+  border-left-color: var(--bevel-light);
+  border-right-color: var(--bevel-dark);
+  border-bottom-color: var(--bevel-dark);
 }
 
-/* 凹陷 (Inset) */
-.bevel-in {
+/* 凹陷效果 (Inset) - 用于内容显示区、输入框 */
+.cde-inset {
   border-style: solid;
-  border-width: var(--border-thin);
-  border-top-color: var(--cde-dark);
-  border-left-color: var(--cde-dark);
-  border-right-color: var(--cde-light);
-  border-bottom-color: var(--cde-light);
+  border-width: var(--b-width);
+  border-top-color: var(--bevel-dark);
+  border-left-color: var(--bevel-dark);
+  border-right-color: var(--bevel-light);
+  border-bottom-color: var(--bevel-light);
 }
 
-/* === 窗口组件 === */
-.window {
-  background-color: var(--cde-base);
-  margin-bottom: 25px;
-  padding: 4px; /* 边框和内容之间的间隙 */
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.3); /* 轻微的投影 */
-}
+/* =========================================
+   组件样式
+   ========================================= */
 
-/* 标题栏 */
-.title-bar {
-  background-color: var(--cde-base); /* 标题栏颜色与窗口一致 */
-  color: var(--text-ui);
-  padding: 2px 6px;
-  font-weight: bold;
-  font-size: 0.9em;
-  margin-bottom: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-/* 标题栏上的装饰线 (模拟 Motif 风格抓手) */
-.title-grip {
-  flex-grow: 1;
-  height: 2px;
-  border-top: 1px solid var(--cde-dark);
-  border-bottom: 1px solid var(--cde-light);
-  margin: 0 10px;
-}
-
-/* 窗口内容区域 - 凹陷的浅色面板 */
-.window-content {
-  background-color: var(--content-bg);
-  color: var(--text-content);
-  padding: 25px;
-  font-family: "Times New Roman", Times, serif; /* 学术内容回归衬线体，更易读 */
-}
-
-/* === 导航按钮 === */
-.nav-bar {
+/* 顶部导航栏 (Front Panel) */
+.front-panel {
   display: flex;
   gap: 8px;
-  padding: 5px;
-  background-color: var(--cde-base);
+  padding: 6px;
+  margin-bottom: 25px;
+  align-items: center;
 }
 
-.cde-btn {
-  background-color: var(--cde-base);
-  color: var(--text-ui);
+/* 导航按钮 */
+.nav-btn {
   text-decoration: none;
-  padding: 4px 12px;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 0.9em;
+  color: var(--text-ui);
   font-weight: bold;
-  
-  /* 按钮凸起 */
+  padding: 4px 12px;
+  font-size: 0.9em;
+  /* 继承凸起效果 */
+  background-color: var(--window-bg);
   border-style: solid;
-  border-width: var(--border-thin);
-  border-top-color: var(--cde-light);
-  border-left-color: var(--cde-light);
-  border-right-color: var(--cde-dark);
-  border-bottom-color: var(--cde-dark);
+  border-width: var(--b-width);
+  border-top-color: var(--bevel-light);
+  border-left-color: var(--bevel-light);
+  border-right-color: var(--bevel-dark);
+  border-bottom-color: var(--bevel-dark);
 }
 
-.cde-btn:hover {
-  background-color: #6a9ba6; /* 稍微变亮 */
+.nav-btn:hover {
+  background-color: #83b0ba; /* 稍微变亮 */
 }
 
-.cde-btn:active {
-  /* 按下反转 */
-  border-top-color: var(--cde-dark);
-  border-left-color: var(--cde-dark);
-  border-right-color: var(--cde-light);
-  border-bottom-color: var(--cde-light);
+.nav-btn:active {
+  /* 按下反转为凹陷 */
+  border-top-color: var(--bevel-dark);
+  border-left-color: var(--bevel-dark);
+  border-right-color: var(--bevel-light);
+  border-bottom-color: var(--bevel-light);
   padding: 5px 11px 3px 13px; /* 微位移 */
 }
 
-/* === 排版细节 === */
-h1, h2, h3 {
-  border-bottom: 2px solid #b0b0b0;
-  color: #333;
-  margin-top: 1.5em;
-  font-family: Helvetica, Arial, sans-serif; /* 标题用无衬线 */
+/* 主窗口 */
+.window {
+  margin-bottom: 30px;
+  padding: 4px; /* 边框与内部内容的间距 */
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.2); /* 柔和的投影 */
 }
 
-a {
-  color: var(--accent-color);
-  text-decoration: underline;
-}
-
-code {
-  background-color: #fff;
-  border: 1px solid #999;
-  padding: 2px 4px;
-  font-family: "Courier New", monospace;
+/* 窗口标题栏 */
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  padding: 2px 5px;
+  font-weight: bold;
   font-size: 0.9em;
+  color: var(--text-ui);
 }
 
-pre {
-  background-color: #f0f0f0;
-  border: 1px solid #999; /* 简单的线框，不需要太复杂的3D */
-  padding: 10px;
+/* 标题栏装饰线 (Grip) */
+.title-grip {
+  flex-grow: 1;
+  height: 4px;
+  margin: 0 10px;
+  border-top: 1px solid var(--bevel-dark);
+  border-bottom: 1px solid var(--bevel-light);
+}
+
+/* 窗口控制按钮 (最小化/最大化) */
+.win-ctrl {
+  width: 16px;
+  height: 16px;
+  background: var(--window-bg);
+  border: 1px solid var(--bevel-dark);
+  border-top-color: var(--bevel-light);
+  border-left-color: var(--bevel-light);
+  display: inline-block;
+  margin-left: 2px;
+}
+
+/* 核心内容区域 (白纸黑字) */
+.content-pane {
+  background-color: var(--content-bg);
+  padding: 30px;
+  color: var(--text-main);
+  /* 使用衬线体，更有学术感 */
+  font-family: "Georgia", "Times New Roman", serif; 
   overflow-x: auto;
 }
 
-img {
-  border: 2px solid var(--cde-dark);
-  max-width: 100%;
+/* =========================================
+   Markdown 内容排版
+   ========================================= */
+
+h1, h2, h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  border-bottom: 1px solid #999;
+  padding-bottom: 5px;
+  margin-top: 1.5em;
 }
+
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* 代码块样式 */
+pre {
+  background-color: var(--code-bg);
+  border: 1px solid #999;
+  padding: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+  overflow-x: auto;
+}
+code {
+  background-color: #ddd;
+  padding: 2px 4px;
+  font-family: "Courier New", monospace;
+}
+
+/* 图片样式 */
+img {
+  max-width: 100%;
+  border: 2px solid var(--bevel-dark);
+  padding: 2px;
+  background: #fff;
+}
+
 .profile-img {
   float: right;
-  width: 160px;
+  width: 150px;
   margin-left: 20px;
   margin-bottom: 10px;
-  /* 照片也加上凹陷框 */
-  border: 2px solid #999;
-  padding: 4px;
-  background: #fff;
+}
+
+/* 底部 */
+footer {
+  text-align: center;
+  font-size: 0.8em;
+  color: var(--bevel-light);
+  margin-top: 40px;
 }
