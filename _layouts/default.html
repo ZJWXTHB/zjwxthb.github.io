@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <title>{{ page.title }} | Desktop</title>
   
+  <!-- 注意：?v=3 用于强制刷新缓存 -->
+  <link rel="stylesheet" href="/assets/css/style.css?v=3">
+  
+  <!-- LaTeX 支持 -->
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
@@ -20,38 +23,52 @@
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
+
+  <!-- 1. 顶部面板 (Front Panel / Dock) -->
+  <div class="front-panel cde-outset">
+    <div style="font-weight:bold; margin-right:10px;">Workspace:</div>
     
-    <div class="front-panel cde-outset">
-      <div style="font-weight:bold; margin-right:10px;">System:</div>
-      <a href="/" class="nav-btn">首页 Home</a>
-      <a href="/cv" class="nav-btn">简历 CV</a>
-      <a href="/publications" class="nav-btn">学术 Research</a>
-      <a href="#blog" class="nav-btn">博客 Blog</a>
-      <div style="flex-grow:1;"></div>
-      <div style="font-size:0.8em;">CPU: Online</div>
+    <a href="/" class="cde-btn">主页 Home</a>
+    <a href="/cv" class="cde-btn">简历 CV</a>
+    <a href="/publications" class="cde-btn">成果 Research</a>
+    <a href="#blog" class="cde-btn">博客 Blog</a>
+    
+    <div style="flex-grow:1;"></div>
+    
+    <!-- 模拟的时钟/CPU状态 -->
+    <div class="cde-inset" style="padding:2px 8px; font-size:12px; background:#000; color:#0f0; font-family:monospace;">
+      CPU: 05%
+    </div>
+  </div>
+
+  <!-- 2. 主窗口 (Main Window) -->
+  <div class="main-window cde-outset">
+    
+    <!-- 标题栏 -->
+    <div class="title-bar active">
+      <span>▼</span>
+      <span style="margin-left:5px;">
+        {% if page.title %}{{ page.title }}{% else %}Text Editor{% endif %} - [Read Only]
+      </span>
+      <div class="grip-lines"></div>
+      <span class="win-btn">_</span>
+      <span class="win-btn">□</span>
+      <span class="win-btn">x</span>
     </div>
 
-    <div class="window cde-outset">
-      
-      <div class="title-bar">
-        <span>▼</span>
-        <span style="margin-left:5px;">
-          {% if page.title %}{{ page.title }}{% else %}Text Editor{% endif %}
-        </span>
-        <div class="title-grip"></div> <span class="win-ctrl"></span> <span class="win-ctrl" style="background:#000;"></span> </div>
-      
-      <div class="content-pane cde-inset markdown-body">
-        {{ content }}
-      </div>
-      
+    <!-- 内容区域 (White Paper) -->
+    <div class="content-pane cde-inset markdown-body">
+      {{ content }}
     </div>
-
-    <footer>
-      <p>Session ID: 2026-USER | CDE Theme</p>
-    </footer>
 
   </div>
+
+  <footer style="text-align:center; font-size:12px; color:#3d545e; margin-top:20px;">
+    Powered by GitHub Pages & CDE Style
+  </footer>
+
+</div>
 
 </body>
 </html>
