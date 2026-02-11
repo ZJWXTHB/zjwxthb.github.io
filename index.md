@@ -7,13 +7,7 @@ title: user@home:~$
 
 ### About Me
 
-I am Huanbin Teng (滕焕斌).
-
-<!-- IPA Display using a serif font for better readability -->
-
-<div style="font-family: 'Charis SIL', 'Times New Roman', serif; font-size: 1.4em; color: #b03030; margin-bottom: 15px;">
-[tʰəŋ˧˥ xwan˥˩ pin˥˥]
-</div>
+I am Huanbin Teng (滕焕斌) <span style="font-family: 'Charis SIL', 'Times New Roman', serif; font-size: 1.2em; color: #b03030;">[tʰəŋ˧˥ xwan˥˩ pin˥˥]</span>.
 
 <!-- Spectrogram Image Placeholder -->
 
