@@ -45,19 +45,24 @@
     .spec-bar {
       width: 4px;
       background-color: #0f0;
-      animation: bounce 1s infinite ease-in-out;
+      /* 基础动画：模拟人声微小抖动 (Jitter) */
+      animation: pulse 0.15s infinite alternate;
+      transform-origin: bottom; /* 确保从底部向上伸缩 */
     }
     
-    /* 模拟共振峰 F1, F2, F3 的跳动 */
-    .spec-bar:nth-child(1) { animation-duration: 0.6s; height: 40%; }
-    .spec-bar:nth-child(2) { animation-duration: 1.1s; height: 80%; }
-    .spec-bar:nth-child(3) { animation-duration: 0.8s; height: 50%; }
-    .spec-bar:nth-child(4) { animation-duration: 1.3s; height: 70%; }
-    .spec-bar:nth-child(5) { animation-duration: 0.9s; height: 60%; }
+    /* 模拟 2-4-1 声调曲线 (五度值) 
+       分布：2(半低) -> 4(半高) -> 1(低)
+       把5个条看作时间轴上的采样点
+    */
+    .spec-bar:nth-child(1) { height: 40%; animation-duration: 0.12s; } /* 调值 2 */
+    .spec-bar:nth-child(2) { height: 60%; animation-duration: 0.15s; } /* 爬升 */
+    .spec-bar:nth-child(3) { height: 90%; animation-duration: 0.11s; } /* 调值 4 (峰值) */
+    .spec-bar:nth-child(4) { height: 50%; animation-duration: 0.14s; } /* 下降 */
+    .spec-bar:nth-child(5) { height: 20%; animation-duration: 0.13s; } /* 调值 1 (低尾) */
 
-    @keyframes bounce {
-      0%, 100% { height: 20%; opacity: 0.5; }
-      50% { height: 100%; opacity: 1; }
+    @keyframes pulse {
+      0% { opacity: 0.8; transform: scaleY(1); }
+      100% { opacity: 1; transform: scaleY(1.1); }
     }
 
     .ling-label {
@@ -87,16 +92,16 @@
     <div class="cde-inset ling-widget">
       <!-- 动态频谱条 -->
       <div class="spectrum-visual">
-        <div class="spec-bar"></div> <!-- F0 -->
-        <div class="spec-bar"></div> <!-- F1 -->
-        <div class="spec-bar"></div> <!-- F2 -->
-        <div class="spec-bar"></div> <!-- F3 -->
-        <div class="spec-bar"></div> <!-- Noise -->
+        <div class="spec-bar"></div> <!-- T2 -->
+        <div class="spec-bar"></div> <!-- Rise -->
+        <div class="spec-bar"></div> <!-- T4 -->
+        <div class="spec-bar"></div> <!-- Fall -->
+        <div class="spec-bar"></div> <!-- T1 -->
       </div>
       <!-- 文本标签 -->
       <div class="ling-label">
-        <div>F0: 124Hz</div>
-        <div style="font-size:9px; color:#888;">PRAAT: ON</div>
+        <div>Tone: 241</div>
+        <div style="font-size:9px; color:#888;">Pitch: ON</div>
       </div>
     </div>
   </div>
