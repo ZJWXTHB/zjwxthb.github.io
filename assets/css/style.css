@@ -37,7 +37,7 @@ body {
 }
 
 .container {
-  max-width: 1150px; /* Wider layout for desktop */
+  max-width: 1250px; /* Wider layout for desktop */
   margin: 0 auto;
 }
 
