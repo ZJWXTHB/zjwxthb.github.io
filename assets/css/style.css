@@ -1,7 +1,7 @@
 /* =========================================
    CDE (Common Desktop Environment) Theme
    Palette: Default Teal (Mariner)
-   With Linguistics Visuals (Formants Only)
+   Mobile Responsive Version
    ========================================= */
 
 :root {
@@ -22,9 +22,9 @@
 /* 全局设置 */
 body {
   margin: 0;
-  padding: 20px;
+  padding: 15px; /* 手机上稍微减小边距 */
   background-color: var(--cde-bg);
-  /* 恢复经典的 CDE 粗糙背景纹理 */
+  /* CDE 纹理背景 */
   background-image: linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%), 
                     linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%);
   background-size: 4px 4px;
@@ -68,14 +68,27 @@ body {
    UI 组件
    ========================================= */
 
-/* 顶部面板 */
+/* 顶部面板 (Front Panel) */
 .front-panel {
   display: flex;
   align-items: center;
   padding: 6px;
-  margin-bottom: 30px;
-  gap: 10px;
+  margin-bottom: 25px;
+  gap: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  flex-wrap: wrap; /* 允许换行，修复手机溢出问题 */
+}
+
+/* 导航标签 ("Workspace:") */
+.nav-label {
+  font-weight: bold; 
+  margin-right: 5px;
+  white-space: nowrap;
+}
+
+/* 占位符 Spacer */
+.nav-spacer {
+  flex-grow: 1;
 }
 
 /* 按钮 */
@@ -84,13 +97,15 @@ body {
   color: #000;
   font-weight: bold;
   font-size: 14px;
-  padding: 4px 15px;
+  padding: 6px 12px;
   background-color: var(--win-color);
   border: 2px solid;
   border-top-color: var(--bevel-hi);
   border-left-color: var(--bevel-hi);
   border-right-color: var(--bevel-lo);
   border-bottom-color: var(--bevel-lo);
+  text-align: center;
+  white-space: nowrap;
 }
 .cde-btn:hover { background-color: #8ab0bf; }
 .cde-btn:active {
@@ -98,65 +113,67 @@ body {
   border-left-color: var(--bevel-lo);
   border-right-color: var(--bevel-hi);
   border-bottom-color: var(--bevel-hi);
-  padding: 5px 14px 3px 16px;
 }
 
 /* 主窗口 */
 .main-window {
-  padding: 5px;
-  box-shadow: 10px 10px 0 rgba(0,0,0,0.2);
+  padding: 4px;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+  /* 确保主窗口在手机上不溢出 */
+  width: 100%;
+  overflow: hidden; 
 }
 
 .title-bar {
   background-color: var(--win-color);
-  padding: 2px 5px;
+  padding: 4px 6px;
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
+  white-space: nowrap; /* 防止标题折行 */
 }
 .title-bar.active {
-  background-color: #a7525e; /* 激活色：紫红 */
+  background-color: #a7525e; 
   color: white;
   box-shadow: inset 1px 1px 0 var(--bevel-lo);
 }
 
 .grip-lines {
   flex-grow: 1;
-  margin: 0 10px;
+  margin: 0 8px;
   height: 4px;
   border-top: 1px solid var(--bevel-lo);
   border-bottom: 1px solid var(--bevel-hi);
+  min-width: 10px; /* 最小宽度，防止彻底消失 */
 }
 
 .content-pane {
-  padding: 40px;
+  padding: 20px;
   font-family: "Georgia", "Times New Roman", serif;
   color: var(--text-main);
-  overflow-x: auto;
+  overflow-x: auto; /* 内容太宽时内部滚动，不撑破窗口 */
 }
 
-/* Markdown 排版 */
-h1, h2, h3 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #333;
-  border-bottom: 1px solid #999;
-  padding-bottom: 10px;
-  margin-top: 1.5em;
-}
+/* Markdown 排版优化 */
+h1 { font-size: 1.8em; margin-top: 0.5em; border-bottom: 1px solid #999; }
+h2 { font-size: 1.4em; }
+h3 { font-size: 1.2em; }
 a { color: var(--link-color); }
 img {
   max-width: 100%;
+  height: auto;
   border: 2px solid var(--bevel-lo);
   padding: 4px;
   background: #fff;
+  box-sizing: border-box;
 }
 .profile-img {
   float: right;
-  width: 180px;
-  margin-left: 20px;
+  width: 120px;
+  margin-left: 15px;
   margin-bottom: 10px;
 }
 pre {
@@ -164,5 +181,61 @@ pre {
   border: 1px solid #999;
   padding: 10px;
   font-family: "Courier New", monospace;
-  font-size: 14px;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+/* =========================================
+   Mobile Responsiveness (手机端适配)
+   ========================================= */
+
+@media (max-width: 600px) {
+  /* 导航面板调整 */
+  .front-panel {
+    justify-content: space-between; /* 按钮两端对齐 */
+    padding: 8px;
+  }
+
+  /* 隐藏非必要的标签和占位符 */
+  .nav-label, .nav-spacer {
+    display: none;
+  }
+
+  /* 按钮变成两列布局，方便点击 */
+  .cde-btn {
+    width: 48%; /* 接近一半宽度 */
+    margin-bottom: 5px;
+    font-size: 13px;
+    padding: 8px 0; /* 增加手指点击区域 */
+  }
+
+  /* 语言学控件 (IPA Rain) 独占一行 */
+  .ling-widget {
+    margin-top: 5px;
+    width: 100%; /* 占满整行 */
+    order: 99;   /* 强制排到最后 */
+  }
+
+  /* 标题栏调整 */
+  .title-bar {
+    padding: 6px;
+  }
+  
+  /* 隐藏标题栏装饰线，节省空间 */
+  .grip-lines {
+    display: none;
+  }
+  
+  /* 内容区内边距减小 */
+  .content-pane {
+    padding: 15px;
+  }
+  
+  /* 头像不再浮动，改为居中显示 */
+  .profile-img {
+    float: none;
+    display: block;
+    margin: 0 auto 15px auto;
+    width: 150px;
+  }
 }
