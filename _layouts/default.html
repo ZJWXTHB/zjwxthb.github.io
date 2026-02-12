@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-TW">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }} | Desktop</title>
   
-  <link rel="stylesheet" href="/assets/css/style.css?v=5">
+  <link rel="stylesheet" href="/assets/css/style.css?v=7">
   
+  <!-- MathJax 數學公式支援 -->
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
@@ -19,7 +20,7 @@
     };
   </script>
 
-  <!-- 小控件样式 -->
+  <!-- 小工具樣式 -->
   <style>
     .ling-widget {
       display: flex;
@@ -27,11 +28,11 @@
       justify-content: center;
       background: #000;
       padding: 0;
-      /* 移除文字颜色设置，交给 Canvas 处理 */
       height: 32px;
-      width: 80px;
+      width: 80px; /* 預設寬度，手機上會被 CSS 覆蓋為 100% */
       overflow: hidden;
       position: relative;
+      border: 1px solid #3d545e;
     }
     
     #ipa-widget-canvas {
@@ -47,29 +48,31 @@
 
 <div class="container">
 
-  <!-- 1. 顶部面板 -->
+  <!-- 1. 頂部面板 (Front Panel) -->
   <div class="front-panel cde-outset">
-    <div style="font-weight:bold; margin-right:10px;">Workspace:</div>
+    <!-- 增加類名 nav-label 以便手機隱藏 -->
+    <div class="nav-label">工作區:</div>
     
-    <a href="/" class="cde-btn">Home</a>
-    <a href="/cv" class="cde-btn">CV</a>
-    <a href="/publications" class="cde-btn">Research</a>
-    <a href="#blog" class="cde-btn">Blog</a>
+    <a href=" " class="cde-btn">首頁 Home</a >
+    <a href="/cv" class="cde-btn">簡歷 CV</a >
+    <a href="/publications" class="cde-btn">研究 Research</a >
+    <a href="#blog" class="cde-btn">部落格 Blog</a >
     
-    <div style="flex-grow:1;"></div>
+    <!-- 增加類名 nav-spacer 以便手機隱藏 -->
+    <div class="nav-spacer"></div>
     
-    <!-- 语言学特色组件：微型 IPA 字符雨 -->
+    <!-- 語言學特色組件：微型 IPA 字符雨 -->
     <div class="cde-inset ling-widget" title="IPA Stream">
       <canvas id="ipa-widget-canvas"></canvas>
     </div>
   </div>
 
-  <!-- 2. 主窗口 -->
+  <!-- 2. 主視窗 (Main Window) -->
   <div class="main-window cde-outset">
     <div class="title-bar active">
       <span>▼</span>
-      <span style="margin-left:5px;">
-        {% if page.title %}{{ page.title }}{% else %}Text Editor{% endif %} - [Read Only]
+      <span style="margin-left:5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        {% if page.title %}{{ page.title }}{% else %}Text Editor{% endif %} - [唯讀]
       </span>
       <div class="grip-lines"></div>
       <!-- No buttons -->
@@ -86,36 +89,51 @@
 
 </div>
 
-<!-- IPA 字符雨动画脚本 -->
+<!-- IPA 字符雨動畫腳本 -->
 <script>
   (function() {
     const canvas = document.getElementById('ipa-widget-canvas');
+    if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
     
-    // 设置画布内部分辨率与 CSS 显示尺寸一致
-    const width = 80;
-    const height = 32;
-    canvas.width = width;
-    canvas.height = height;
+    // 動態調整 Canvas 內部尺寸以匹配 CSS 尺寸
+    function resizeCanvas() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+    }
     
-    // 国际音标字符集
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // 初始化
+    
+    // IPA 國際音標字符集
     const ipaChars = "əʃʒŋθðʔχʁβɸɥmrnwtskzpbtdkgaeiouɛɔɑ";
     const charArray = ipaChars.split('');
     
-    const fontSize = 10; // 小字体适配微型窗口
-    const columns = width / fontSize;
+    const fontSize = 10;
+    // 根據寬度計算列數
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = [];
     
-    const drops = [];
-    for(let i = 0; i < columns; i++) {
-      drops[i] = Math.random() * -10; // 随机起始位置
+    function initDrops() {
+        columns = Math.floor(canvas.width / fontSize);
+        drops = [];
+        for(let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -10;
+        }
     }
     
+    initDrops();
+    // 視窗大小改變時重置雨滴
+    window.addEventListener('resize', initDrops);
+    
     function draw() {
-      // 黑色背景，带透明度以产生拖尾效果
+      // 黑色背景，帶透明度以產生拖尾效果
       ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'; 
-      ctx.fillRect(0, 0, width, height);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // 荧光绿文字
+      // 螢光綠文字
       ctx.fillStyle = '#0f0'; 
       ctx.font = fontSize + 'px monospace';
       
@@ -123,15 +141,14 @@
         const text = charArray[Math.floor(Math.random() * charArray.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
         
-        // 随机重置回顶部，形成循环雨
-        if(drops[i] * fontSize > height && Math.random() > 0.9) {
+        // 隨機重置回頂部
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.9) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     }
     
-    // 动画循环
     setInterval(draw, 60);
   })();
 </script>
