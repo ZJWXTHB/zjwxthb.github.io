@@ -5,43 +5,44 @@
    ========================================= */
 
 :root {
-  /* 核心颜色定义 */
-  --cde-bg:       #5e7d8a;  /* 桌面背景 */
-  --win-color:    #7998a5;  /* 窗口和面板的表面颜色 */
+  /* Core Colors */
+  --cde-bg:       #5e7d8a;  /* Desktop Background */
+  --win-color:    #7998a5;  /* Window/Panel Surface */
   
-  /* 3D 浮雕光影 */
-  --bevel-hi:     #b4d3e0;  /* 高光 */
-  --bevel-lo:     #3d545e;  /* 阴影 */
+  /* 3D Bevels */
+  --bevel-hi:     #b4d3e0;  /* Highlight */
+  --bevel-lo:     #3d545e;  /* Shadow */
   
-  /* 内容区 */
+  /* Content Area */
   --paper-bg:     #eeeeee;
   --text-main:    #000000;
   --link-color:   #b03030;
 }
 
-/* 全局设置 */
+/* Global Settings */
 body {
   margin: 0;
-  padding: 15px; /* 手机上稍微减小边距 */
+  padding: 15px;
   background-color: var(--cde-bg);
-  /* CDE 纹理背景 */
+  /* CDE Dithered Pattern */
   background-image: linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%), 
                     linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%);
   background-size: 4px 4px;
   background-position: 0 0, 2px 2px;
   
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Font Stack with Chinese Support */
+  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   color: #000;
   line-height: 1.6;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1150px; /* Wider layout for desktop */
   margin: 0 auto;
 }
 
 /* =========================================
-   3D 浮雕工具类
+   3D Bevel Utilities
    ========================================= */
 
 .cde-outset {
@@ -65,10 +66,10 @@ body {
 }
 
 /* =========================================
-   UI 组件
+   UI Components
    ========================================= */
 
-/* 顶部面板 (Front Panel) */
+/* Front Panel (Navigation) */
 .front-panel {
   display: flex;
   align-items: center;
@@ -76,22 +77,20 @@ body {
   margin-bottom: 25px;
   gap: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  flex-wrap: wrap; /* 允许换行，修复手机溢出问题 */
+  flex-wrap: wrap;
 }
 
-/* 导航标签 ("Workspace:") */
 .nav-label {
   font-weight: bold; 
   margin-right: 5px;
   white-space: nowrap;
 }
 
-/* 占位符 Spacer */
 .nav-spacer {
   flex-grow: 1;
 }
 
-/* 按钮 */
+/* Buttons */
 .cde-btn {
   text-decoration: none;
   color: #000;
@@ -115,11 +114,32 @@ body {
   border-bottom-color: var(--bevel-hi);
 }
 
-/* 主窗口 */
+/* IPA Widget (Integrated styles) */
+.ling-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  padding: 0;
+  height: 32px;
+  width: 80px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--bevel-lo);
+}
+
+#ipa-widget-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Main Window */
 .main-window {
   padding: 4px;
   box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
-  /* 确保主窗口在手机上不溢出 */
   width: 100%;
   overflow: hidden; 
 }
@@ -133,7 +153,7 @@ body {
   align-items: center;
   font-weight: bold;
   font-size: 13px;
-  white-space: nowrap; /* 防止标题折行 */
+  white-space: nowrap;
 }
 .title-bar.active {
   background-color: #a7525e; 
@@ -147,17 +167,17 @@ body {
   height: 4px;
   border-top: 1px solid var(--bevel-lo);
   border-bottom: 1px solid var(--bevel-hi);
-  min-width: 10px; /* 最小宽度，防止彻底消失 */
+  min-width: 10px;
 }
 
 .content-pane {
   padding: 20px;
   font-family: "Georgia", "Times New Roman", serif;
   color: var(--text-main);
-  overflow-x: auto; /* 内容太宽时内部滚动，不撑破窗口 */
+  overflow-x: auto;
 }
 
-/* Markdown 排版优化 */
+/* Markdown Typography */
 h1 { font-size: 1.8em; margin-top: 0.5em; border-bottom: 1px solid #999; }
 h2 { font-size: 1.4em; }
 h3 { font-size: 1.2em; }
@@ -186,52 +206,50 @@ pre {
 }
 
 /* =========================================
-   Mobile Responsiveness (手机端适配)
+   Mobile Responsiveness
    ========================================= */
 
 @media (max-width: 600px) {
-  /* 导航面板调整 */
+  /* Front Panel Adjustments */
   .front-panel {
-    justify-content: space-between; /* 按钮两端对齐 */
+    justify-content: space-between;
     padding: 8px;
   }
 
-  /* 隐藏非必要的标签和占位符 */
+  /* Hide labels and spacers */
   .nav-label, .nav-spacer {
     display: none;
   }
 
-  /* 按钮变成两列布局，方便点击 */
+  /* Buttons: 2-column layout */
   .cde-btn {
-    width: 48%; /* 接近一半宽度 */
+    width: 48%;
     margin-bottom: 5px;
     font-size: 13px;
-    padding: 8px 0; /* 增加手指点击区域 */
+    padding: 10px 0; /* Larger touch target */
   }
 
-  /* 语言学控件 (IPA Rain) 独占一行 */
+  /* Widget: Full width and taller on mobile */
   .ling-widget {
-    margin-top: 5px;
-    width: 100%; /* 占满整行 */
-    order: 99;   /* 强制排到最后 */
+    margin-top: 8px;
+    width: 100% !important;
+    height: 100px;
+    order: 99; /* Force to bottom */
   }
 
-  /* 标题栏调整 */
+  /* Title Bar Adjustments */
   .title-bar {
     padding: 6px;
   }
   
-  /* 隐藏标题栏装饰线，节省空间 */
   .grip-lines {
     display: none;
   }
   
-  /* 内容区内边距减小 */
   .content-pane {
     padding: 15px;
   }
   
-  /* 头像不再浮动，改为居中显示 */
   .profile-img {
     float: none;
     display: block;
